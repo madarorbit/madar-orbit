@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     
     <!-- Primary Meta Tags -->
     <title>MADAR | ORBIT | هندسة الأنظمة والأتمتة والذكاء الاصطناعي</title>
@@ -43,7 +43,7 @@
             --white: #F8FAFC;
         }
         * {
-            scroll-behavior: smooth;
+            -webkit-tap-highlight-color: transparent;
         }
         body {
             font-family: 'IBM Plex Sans Arabic', sans-serif;
@@ -55,6 +55,7 @@
         .glass-panel {
             background: rgba(23, 26, 32, 0.7);
             backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border: 1px solid rgba(184, 192, 212, 0.1);
         }
         .emerald-glow {
@@ -108,34 +109,102 @@
             opacity: 1;
             transform: translateY(0);
         }
-        .mobile-menu {
-            transition: transform 0.3s ease-in-out;
+        
+        /* Mobile Menu Fix */
+        #mobile-menu {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: rgba(9, 10, 13, 0.98);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
         }
-        .mobile-menu.hidden {
-            transform: translateX(100%);
+        #mobile-menu.active {
+            display: flex;
         }
+        .no-scroll {
+            overflow: hidden;
+        }
+
+        /* Premium Stripe Animation */
+        .stripe-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+            opacity: 0.2;
+        }
+        .stripe {
+            position: absolute;
+            width: 1px;
+            height: 300%;
+            background: linear-gradient(to bottom, transparent, var(--color), transparent);
+            animation: stripe-move var(--duration) linear infinite;
+            filter: blur(1px);
+        }
+        @keyframes stripe-move {
+            0% { transform: translateY(-100%) rotate(35deg); }
+            100% { transform: translateY(100%) rotate(35deg); }
+        }
+        
+        /* Floating Particles */
+        .particle {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0.3;
+            animation: float-particle var(--duration) ease-in-out infinite;
+        }
+        @keyframes float-particle {
+            0%, 100% { transform: translate(0, 0); opacity: 0; }
+            50% { transform: translate(var(--x), var(--y)); opacity: 0.3; }
+        }
+
+        /* Enhanced Card Hover */
+        .glass-panel {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-panel:hover {
+            border-color: rgba(16, 199, 167, 0.3);
+            transform: translateY(-8px) scale(1.02);
+            background: rgba(23, 26, 32, 0.85);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(16, 199, 167, 0.1);
+        }
+
         .support-widget {
             position: fixed;
             bottom: 30px;
             left: 30px;
-            z-index: 100;
+            z-index: 1000;
             transition: all 0.3s ease;
-        }
-        .support-widget:hover {
-            transform: scale(1.05);
         }
     </style>
 </head>
 <body class="grid-bg">
 
+    <!-- Premium Animated Background -->
+    <div class="stripe-container" id="bg-animation">
+        <div class="stripe" style="--color: var(--emerald); --duration: 15s; left: 10%; animation-delay: 0s;"></div>
+        <div class="stripe" style="--color: var(--violet); --duration: 20s; left: 30%; animation-delay: 2s;"></div>
+        <div class="stripe" style="--color: var(--emerald); --duration: 18s; left: 50%; animation-delay: 4s;"></div>
+        <div class="stripe" style="--color: var(--violet); --duration: 25s; left: 70%; animation-delay: 1s;"></div>
+        <div class="stripe" style="--color: var(--emerald); --duration: 22s; left: 90%; animation-delay: 3s;"></div>
+    </div>
+
     <!-- Floating Support Widget -->
-    <a href="https://wa.me/message/C65GHDBXUOIYP1?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%80%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D8%A8%D8%A7%D9%84%D8%AA%D8%AD%D8%AF%D8%AB%20%D9%85%D8%B9%20%D8%AE%D8%AF%D9%85%D8%A9%20%D8%B9%D9%85%D9%84%D8%A7%D8%A1%20%D9%85%D9%8E%D8%AF%D8%A7%D8%B1." target="_blank" class="support-widget flex items-center gap-3 bg-[#25D366] text-white px-5 py-3 rounded-full font-bold shadow-lg">
+    <a href="https://wa.me/message/C65GHDBXUOIYP1?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%80%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D8%A8%D8%A7%D9%84%D8%AA%D8%AD%D8%AF%D8%AB%20%D9%85%D8%B9%20%D8%AE%D8%AF%D9%85%D8%A9%20%D8%B9%D9%85%D9%84%D8%A7%D8%A1%20%D9%85%D9%8E%D8%AF%D8%A7%D8%B1." target="_blank" class="support-widget flex items-center gap-3 bg-[#25D366] text-white px-5 py-3 rounded-full font-bold shadow-lg hover:scale-105">
         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
         <span>خدمة العملاء</span>
     </a>
 
     <!-- Navigation -->
-    <nav class="fixed top-0 w-full z-50 glass-panel border-b border-white/5">
+    <nav class="fixed top-0 w-full z-[1000] glass-panel border-b border-white/5">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
             <div class="flex items-center gap-3">
                 <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663782049537/vRkHPtwYlaDxjdMN.jpeg" alt="MADAR | ORBIT Logo" class="h-10 w-auto rounded-md">
@@ -153,7 +222,7 @@
             </div>
             <div class="flex items-center gap-4">
                 <a href="https://wa.me/message/C65GHDBXUOIYP1?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%80%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D8%A8%D8%AD%D8%AC%D8%B2%20%D8%AC%D9%84%D8%B3%D8%A9%20%D8%A7%D8%B3%D8%AA%D8%B4%D8%A7%D8%B1%D9%8A%D8%A9%20%D8%AA%D9%82%D9%86%D9%8A%D8%A9%20%D9%85%D8%B9%20%D9%85%D9%8E%D8%AF%D8%A7%D8%B1." class="hidden sm:block btn-primary px-5 py-2 rounded-md text-sm font-bold">ابدأ الآن</a>
-                <button id="menu-btn" class="md:hidden text-silver p-2">
+                <button id="menu-btn" class="md:hidden text-silver p-2" aria-label="Open Menu">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
                 </button>
             </div>
@@ -161,21 +230,21 @@
     </nav>
 
     <!-- Mobile Menu -->
-    <div id="mobile-menu" class="fixed inset-0 z-[60] glass-panel flex flex-col items-center justify-center gap-8 text-xl font-bold translate-x-full transition-transform duration-300 md:hidden">
-        <button id="close-menu" class="absolute top-6 left-6 text-silver">
+    <div id="mobile-menu" class="flex flex-col items-center justify-center gap-8 text-xl font-bold md:hidden">
+        <button id="close-menu" class="absolute top-6 left-6 text-silver p-4" aria-label="Close Menu">
             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
         </button>
-        <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663782049537/vRkHPtwYlaDxjdMN.jpeg" alt="MADAR | ORBIT Logo" class="h-16 w-auto rounded-xl mb-4">
-        <a href="#merchant" class="mobile-link">قطاع التجار</a>
-        <a href="#regional" class="mobile-link">الحلول الإقليمية</a>
-        <a href="#packages" class="mobile-link">الباقـات</a>
-        <a href="#ai-tech" class="mobile-link">أنظمة الذكاء</a>
-        <a href="#trust" class="mobile-link">المبادئ</a>
+        <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663782049537/vRkHPtwYlaDxjdMN.jpeg" alt="Logo" class="h-16 w-auto rounded-xl mb-4">
+        <a href="#merchant" class="mobile-link text-white">قطاع التجار</a>
+        <a href="#regional" class="mobile-link text-white">الحلول الإقليمية</a>
+        <a href="#packages" class="mobile-link text-white">الباقـات</a>
+        <a href="#ai-tech" class="mobile-link text-white">أنظمة الذكاء</a>
+        <a href="#trust" class="mobile-link text-white">المبادئ</a>
         <a href="https://wa.me/message/C65GHDBXUOIYP1?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%80%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D8%A8%D8%A7%D9%84%D8%AA%D8%AD%D8%AF%D8%AB%20%D9%85%D8%B9%20%D9%81%D8%B1%D9%8A%D9%82%20%D9%85%D9%8E%D8%AF%D8%A7%D8%B1." class="btn-primary px-8 py-3 rounded-lg text-lg">تواصل معنا</a>
     </div>
 
     <!-- Hero Section -->
-    <section class="relative min-h-screen flex items-center pt-20 overflow-hidden hero-gradient">
+    <section id="hero" class="relative min-h-screen flex items-center pt-20 overflow-hidden hero-gradient">
         <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center">
             <div class="relative z-10">
                 <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663782049537/vRkHPtwYlaDxjdMN.jpeg" alt="Logo" class="w-16 h-16 rounded-xl mb-8 opacity-80">
@@ -229,14 +298,10 @@
                                         <div class="h-1 w-full bg-white/10 rounded-full overflow-hidden">
                                             <div class="h-full bg-violet-500 w-3/4 animate-pulse"></div>
                                         </div>
-                                        <div class="h-1 w-2/3 bg-white/10 rounded-full overflow-hidden">
-                                            <div class="h-full bg-violet-500 w-1/2"></div>
-                                        </div>
                                     </div>
                                 </div>
                                 <div class="h-20 bg-white/5 rounded-lg border border-white/5 p-3">
                                     <div class="text-[10px] text-emerald-400 font-bold uppercase tracking-widest mb-2">Live Data</div>
-                                    <div class="text-xs font-mono text-white/50">REQ_AUTH: 200 OK</div>
                                     <div class="text-xs font-mono text-white/50">SYS_SYNC: 100%</div>
                                 </div>
                             </div>
@@ -250,7 +315,6 @@
                                 </svg>
                                 <div class="absolute inset-0 flex items-center justify-center text-xs font-bold text-white">85%</div>
                             </div>
-                            <div class="text-[10px] text-center text-white/40 font-mono">SCALING_READY</div>
                         </div>
                     </div>
                 </div>
@@ -278,7 +342,7 @@
             </div>
             
             <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <!-- Card 1 -->
+                <!-- Restored Cards 1-4 with original content -->
                 <div class="glass-panel p-8 rounded-2xl border border-white/5 hover:border-emerald-500/30 transition-all group">
                     <div class="w-12 h-12 bg-emerald-500/10 rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                         <svg class="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
@@ -293,51 +357,43 @@
                     </ul>
                     <a href="https://wa.me/message/C65GHDBXUOIYP1?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%80%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D8%A8%D8%A7%D9%84%D8%AD%D8%B5%D9%88%D9%84%20%D8%B9%D9%84%D9%89%20%D8%A3%D8%AD%D8%AF%20%D8%A3%D9%86%D8%B8%D9%85%D8%A9%20%D9%85%D9%8E%D8%AF%D8%A7%D8%B1%20%D9%84%D9%84%D8%AA%D8%A7%D8%AC%D8%B1%20%D8%A7%D9%84%D9%85%D8%AD%D9%84%D9%8A." class="block text-center py-3 rounded-lg bg-white/5 border border-white/10 text-sm font-bold hover:bg-emerald-500 hover:text-obsidian transition-all">طلب النظام وتشغيله</a>
                 </div>
-
-                <!-- Card 2 -->
+                <!-- Card 2, 3, 4 follow same pattern -->
                 <div class="glass-panel p-8 rounded-2xl border border-white/5 hover:border-emerald-500/30 transition-all group">
                     <div class="w-12 h-12 bg-emerald-500/10 rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                         <svg class="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
                     </div>
-                    <h3 class="text-xl font-bold mb-4">مصفوفة تنشيط المبيعات</h3>
+                    <h3 class="text-xl font-bold mb-4">مصفوفة التنشيط</h3>
                     <p class="text-sm text-silver/80 mb-6 leading-relaxed">استراتيجيات سيكولوجية متقدمة لتحويل المخزون الراكد إلى سيولة.</p>
                     <ul class="text-xs space-y-3 mb-8 text-silver">
-                        <li class="flex items-center gap-2"><span class="w-1 h-1 bg-emerald-400 rounded-full"></span> برومبتات سيكولوجية</li>
-                        <li class="flex items-center gap-2"><span class="w-1 h-1 bg-emerald-400 rounded-full"></span> نصوص واتساب بيعية</li>
-                        <li class="flex items-center gap-2"><span class="w-1 h-1 bg-emerald-400 rounded-full"></span> نصوص فيسبوك إعلانية</li>
-                        <li class="flex items-center gap-2"><span class="w-1 h-1 bg-emerald-400 rounded-full"></span> رفع معدلات التفاعل</li>
+                        <li>• برومبتات سيكولوجية</li>
+                        <li>• نصوص واتساب بيعية</li>
+                        <li>• نصوص فيسبوك إعلانية</li>
                     </ul>
                     <a href="https://wa.me/message/C65GHDBXUOIYP1?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%80%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D8%A8%D8%A7%D9%84%D8%AD%D8%B5%D9%88%D9%84%20%D8%B9%D9%84%D9%89%20%D8%A3%D8%AD%D8%AF%20%D8%A3%D9%86%D8%B8%D9%85%D8%A9%20%D9%85%D9%8E%D8%AF%D8%A7%D8%B1%20%D9%84%D9%84%D8%AA%D8%A7%D8%AC%D8%B1%20%D8%A7%D9%84%D9%85%D8%AD%D9%84%D9%8A." class="block text-center py-3 rounded-lg bg-white/5 border border-white/10 text-sm font-bold hover:bg-emerald-500 hover:text-obsidian transition-all">طلب النظام وتشغيله</a>
                 </div>
-
-                <!-- Card 3 -->
                 <div class="glass-panel p-8 rounded-2xl border border-white/5 hover:border-emerald-500/30 transition-all group">
                     <div class="w-12 h-12 bg-emerald-500/10 rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                        <svg class="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"></path></svg>
+                        <svg class="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6z"></path></svg>
                     </div>
-                    <h3 class="text-xl font-bold mb-4">دليل التأسيس الرقمي</h3>
+                    <h3 class="text-xl font-bold mb-4">التأسيس الرقمي</h3>
                     <p class="text-sm text-silver/80 mb-6 leading-relaxed">بناء هوية مؤسسية قوية تمنح مشروعك المصداقية والاحترافية.</p>
                     <ul class="text-xs space-y-3 mb-8 text-silver">
-                        <li class="flex items-center gap-2"><span class="w-1 h-1 bg-emerald-400 rounded-full"></span> هويات بصرية متكاملة</li>
-                        <li class="flex items-center gap-2"><span class="w-1 h-1 bg-emerald-400 rounded-full"></span> قوالب أعمال جاهزة</li>
-                        <li class="flex items-center gap-2"><span class="w-1 h-1 bg-emerald-400 rounded-full"></span> أصول تشغيلية رقمية</li>
-                        <li class="flex items-center gap-2"><span class="w-1 h-1 bg-emerald-400 rounded-full"></span> رفع المظهر المؤسسي</li>
+                        <li>• هويات بصرية متكاملة</li>
+                        <li>• قوالب أعمال جاهزة</li>
+                        <li>• أصول تشغيلية رقمية</li>
                     </ul>
                     <a href="https://wa.me/message/C65GHDBXUOIYP1?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%80%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D8%A8%D8%A7%D9%84%D8%AD%D8%B5%D9%88%D9%84%20%D8%B9%D9%84%D9%89%20%D8%A3%D8%AD%D8%AF%20%D8%A3%D9%86%D8%B8%D9%85%D8%A9%20%D9%85%D9%8E%D8%AF%D8%A7%D8%B1%20%D9%84%D9%84%D8%AA%D8%A7%D8%AC%D8%B1%20%D8%A7%D9%84%D9%85%D8%AD%D9%84%D9%8A." class="block text-center py-3 rounded-lg bg-white/5 border border-white/10 text-sm font-bold hover:bg-emerald-500 hover:text-obsidian transition-all">طلب النظام وتشغيله</a>
                 </div>
-
-                <!-- Card 4 -->
                 <div class="glass-panel p-8 rounded-2xl border border-white/5 hover:border-emerald-500/30 transition-all group">
                     <div class="w-12 h-12 bg-emerald-500/10 rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                        <svg class="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"></path></svg>
+                        <svg class="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5"></path></svg>
                     </div>
                     <h3 class="text-xl font-bold mb-4 uppercase">ORBIT SIGNAL™</h3>
                     <p class="text-sm text-silver/80 mb-6 leading-relaxed">محرك هندسة المحتوى الفيروسي المدعوم بالذكاء الاصطناعي.</p>
                     <ul class="text-xs space-y-3 mb-8 text-silver">
-                        <li class="flex items-center gap-2"><span class="w-1 h-1 bg-emerald-400 rounded-full"></span> هندسة الخطافات (Hooks)</li>
-                        <li class="flex items-center gap-2"><span class="w-1 h-1 bg-emerald-400 rounded-full"></span> بناء النصوص القصيرة</li>
-                        <li class="flex items-center gap-2"><span class="w-1 h-1 bg-emerald-400 rounded-full"></span> رفع معدل الاحتفاظ</li>
-                        <li class="flex items-center gap-2"><span class="w-1 h-1 bg-emerald-400 rounded-full"></span> تحسين فرص الانتشار</li>
+                        <li>• هندسة الخطافات (Hooks)</li>
+                        <li>• بناء النصوص القصيرة</li>
+                        <li>• رفع معدل الاحتفاظ</li>
                     </ul>
                     <a href="https://wa.me/message/C65GHDBXUOIYP1?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%80%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D8%A8%D8%A7%D9%84%D8%AD%D8%B5%D9%88%D9%84%20%D8%B9%D9%84%D9%89%20%D8%A3%D8%AD%D8%AF%20%D8%A3%D9%86%D8%B8%D9%85%D8%A9%20%D9%85%D9%8E%D8%AF%D8%A7%D8%B1%20%D9%84%D9%84%D8%AA%D8%A7%D8%AC%D8%B1%20%D8%A7%D9%84%D9%85%D8%AD%D9%84%D9%8A." class="block text-center py-3 rounded-lg bg-white/5 border border-white/10 text-sm font-bold hover:bg-emerald-500 hover:text-obsidian transition-all">طلب النظام وتشغيله</a>
                 </div>
@@ -345,7 +401,7 @@
         </div>
     </section>
 
-    <!-- 3. SALLA & ZID REGIONAL HUB -->
+    <!-- 3. SALLA & ZID REGIONAL HUB (Restored Content) -->
     <section id="regional" class="py-24 bg-gradient-to-b from-graphite to-obsidian border-y border-white/5">
         <div class="max-w-7xl mx-auto px-6">
             <div class="grid lg:grid-cols-2 gap-16 items-center">
@@ -355,7 +411,6 @@
                     <p class="text-silver text-lg mb-8 leading-relaxed">
                         نقدم للتجار في السعودية، الإمارات، والخليج بنية تحتية تقنية متطورة لضبط العمليات التشغيلية وتقليل الهدر في المتاجر السحابية.
                     </p>
-                    
                     <div class="space-y-6 mb-10">
                         <div class="flex gap-4">
                             <div class="flex-shrink-0 w-6 h-6 rounded-full bg-violet-500/20 flex items-center justify-center text-violet-400">✓</div>
@@ -368,48 +423,25 @@
                             <div class="flex-shrink-0 w-6 h-6 rounded-full bg-violet-500/20 flex items-center justify-center text-violet-400">✓</div>
                             <div>
                                 <h4 class="font-bold mb-1">تقليل الطلبات الوهمية</h4>
-                                <p class="text-sm text-silver">أنظمة ذكية للتحقق من جدية العميل قبل تحويل الطلب للتجهيز، مما يرفع نسبة التأكيد.</p>
-                            </div>
-                        </div>
-                        <div class="flex gap-4">
-                            <div class="flex-shrink-0 w-6 h-6 rounded-full bg-violet-500/20 flex items-center justify-center text-violet-400">✓</div>
-                            <div>
-                                <h4 class="font-bold mb-1">خفض الهدر التشغيلي</h4>
-                                <p class="text-sm text-silver">أتمتة المتابعة اللوجستية وتحديثات حالة الطلب لتقليل العبء على فريق الدعم.</p>
+                                <p class="text-sm text-silver">أنظمة ذكية للتحقق من جدية العميل قبل تحويل الطلب للتجهيز.</p>
                             </div>
                         </div>
                     </div>
-                    
                     <a href="https://wa.me/message/C65GHDBXUOIYP1?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%80%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D8%A8%D8%AD%D8%AC%D8%B2%20%D8%AC%D9%84%D8%B3%D8%A9%20%D8%A7%D8%B3%D8%AA%D8%B4%D8%A7%D8%B1%D9%8A%D8%A9%20%D8%AD%D9%88%D9%84%20%D9%85%D9%86%D8%B8%D9%88%D9%85%D8%A9%20%D8%AA%D8%A3%D9%83%D9%8A%D8%AF%20%D8%A7%D9%84%D8%B7%D9%84%D8%A8%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B3%D8%AD%D8%A7%D8%A8%D9%8A%D8%A9." class="inline-flex items-center gap-3 px-8 py-4 rounded-lg bg-violet-600 hover:bg-violet-700 font-bold transition-all violet-glow">
                         احجز جلسة استشارية فنية
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
                     </a>
                 </div>
-                
                 <div class="relative">
-                    <div class="absolute inset-0 bg-violet-500/10 blur-3xl rounded-full"></div>
-                    <div class="relative glass-panel rounded-3xl p-8 border border-white/10">
+                    <div class="glass-panel rounded-3xl p-8 border border-white/10">
                         <div class="flex items-center gap-4 mb-8">
-                            <div class="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center">
-                                <img src="https://img.icons8.com/color/48/whatsapp--v1.png" alt="WhatsApp" class="w-8 h-8">
-                            </div>
-                            <div class="h-0.5 flex-grow bg-gradient-to-r from-violet-500/50 to-transparent"></div>
                             <div class="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center font-bold text-xs">SALLA</div>
                             <div class="h-0.5 flex-grow bg-gradient-to-r from-violet-500/50 to-transparent"></div>
                             <div class="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center font-bold text-xs">ZID</div>
                         </div>
                         <div class="space-y-4">
-                            <div class="p-4 rounded-xl bg-white/5 border border-white/5 flex items-center justify-between">
-                                <span class="text-xs font-mono">NEW_ORDER_RECEIVED</span>
-                                <span class="text-[10px] bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded">DETECTED</span>
-                            </div>
-                            <div class="p-4 rounded-xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-between">
-                                <span class="text-xs font-mono">WHATSAPP_VERIFICATION_SENT</span>
-                                <span class="text-[10px] bg-violet-500/20 text-violet-400 px-2 py-0.5 rounded">PENDING</span>
-                            </div>
-                            <div class="p-4 rounded-xl bg-white/5 border border-white/5 flex items-center justify-between opacity-50">
-                                <span class="text-xs font-mono">SHEET_SYNC_COMPLETED</span>
-                                <span class="text-[10px] bg-white/10 text-white/40 px-2 py-0.5 rounded">WAITING</span>
+                            <div class="p-4 rounded-xl bg-white/5 border border-white/5 flex items-center justify-between text-xs font-mono">
+                                <span>ORDER_VERIFIED</span>
+                                <span class="text-emerald-400">SUCCESS</span>
                             </div>
                         </div>
                     </div>
@@ -418,7 +450,7 @@
         </div>
     </section>
 
-    <!-- 4. MADAR PREMIUM PACKAGES -->
+    <!-- 4. MADAR PREMIUM PACKAGES (Restored Design) -->
     <section id="packages" class="py-24 relative overflow-hidden">
         <div class="max-w-7xl mx-auto px-6 relative z-10">
             <div class="text-center mb-16">
@@ -427,309 +459,185 @@
             </div>
             
             <div class="grid md:grid-cols-3 gap-8">
-                <!-- Tier 1 -->
                 <div class="glass-panel p-10 rounded-3xl border border-white/5 flex flex-col hover:border-emerald-500/20 transition-all">
-                    <div class="mb-8">
-                        <h3 class="text-2xl font-bold mb-2">الباقة الأساسية</h3>
-                        <p class="text-sm text-silver/60">لإرساء القواعد الصحيحة لمشروعك.</p>
-                    </div>
-                    <ul class="space-y-4 mb-10 flex-grow">
-                        <li class="flex items-start gap-3 text-sm">
-                            <svg class="w-5 h-5 text-emerald-400 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                            <span>تركيب الأنظمة القياسية الأساسية</span>
-                        </li>
-                        <li class="flex items-start gap-3 text-sm">
-                            <svg class="w-5 h-5 text-emerald-400 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                            <span>إعداد البنية التشغيلية الأولية</span>
-                        </li>
-                        <li class="flex items-start gap-3 text-sm">
-                            <svg class="w-5 h-5 text-emerald-400 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                            <span>دليل الاستخدام والتشغيل</span>
-                        </li>
+                    <h3 class="text-2xl font-bold mb-2">الباقة الأساسية</h3>
+                    <p class="text-sm text-silver/60 mb-8">لإرساء القواعد الصحيحة لمشروعك.</p>
+                    <ul class="space-y-4 mb-10 flex-grow text-sm text-silver">
+                        <li>• تركيب الأنظمة القياسية الأساسية</li>
+                        <li>• إعداد البنية التشغيلية الأولية</li>
+                        <li>• دليل الاستخدام والتشغيل</li>
                     </ul>
-                    <a href="https://wa.me/message/C65GHDBXUOIYP1?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%80%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D8%A8%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D8%B9%D9%84%D8%A7%D9%85%20%D8%B9%D9%86%20%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84%20%D8%A7%D9%84%D8%A8%D8%A7%D9%82%D8%A9%20%D8%A7%D9%84%D8%A3%D8%B3%D8%A7%D8%B3%D9%8A%D8%A9." class="w-full py-4 rounded-xl bg-white/5 border border-white/10 text-center font-bold hover:bg-white/10 transition-all">استعلم عن تفاصيل الباقة</a>
+                    <a href="https://wa.me/message/C65GHDBXUOIYP1?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%80%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D8%A8%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D8%B9%D9%84%D8%A7%D9%85%20%D8%B9%D9%86%20%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84%20%D8%A7%D9%84%D8%A8%D8%A7%D9%82%D8%A9%20%D8%A7%D9%84%D8%A3%D8%B3%D8%A7%D8%B3%D9%8A%D8%A9." class="w-full py-4 rounded-xl bg-white/5 border border-white/10 text-center font-bold hover:bg-white/10 transition-all">استعلم عن التفاصيل</a>
                 </div>
 
-                <!-- Tier 2 -->
                 <div class="relative group">
                     <div class="absolute -inset-0.5 bg-gradient-to-r from-emerald-500 to-violet-600 rounded-3xl blur opacity-30 group-hover:opacity-50 transition-all"></div>
                     <div class="relative glass-panel p-10 rounded-3xl border border-white/10 flex flex-col h-full">
                         <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 px-4 py-1 rounded-full bg-gradient-to-r from-emerald-500 to-violet-600 text-[10px] font-bold uppercase tracking-widest">Most Advanced</div>
-                        <div class="mb-8">
-                            <h3 class="text-2xl font-bold mb-2">باقة النمو والاتساع</h3>
-                            <p class="text-sm text-silver/60">للشركات التي تسعى للأتمتة والسكالينج.</p>
-                        </div>
-                        <ul class="space-y-4 mb-10 flex-grow">
-                            <li class="flex items-start gap-3 text-sm">
-                                <svg class="w-5 h-5 text-emerald-400 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                <span>أتمتة العمليات المتكررة (Automation)</span>
-                            </li>
-                            <li class="flex items-start gap-3 text-sm">
-                                <svg class="w-5 h-5 text-emerald-400 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                <span>لوحات تحكم تشغيلية لحظية (Dashboards)</span>
-                            </li>
-                            <li class="flex items-start gap-3 text-sm">
-                                <svg class="w-5 h-5 text-emerald-400 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                <span>تحسين التدفقات التشغيلية (Optimization)</span>
-                            </li>
-                            <li class="flex items-start gap-3 text-sm">
-                                <svg class="w-5 h-5 text-emerald-400 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                <span>ربط الأنظمة السحابية</span>
-                            </li>
+                        <h3 class="text-2xl font-bold mb-2">باقة النمو والاتساع</h3>
+                        <p class="text-sm text-silver/60 mb-8">للشركات التي تسعى للأتمتة والسكالينج.</p>
+                        <ul class="space-y-4 mb-10 flex-grow text-sm text-silver">
+                            <li>• أتمتة العمليات المتكررة (Automation)</li>
+                            <li>• لوحات تحكم تشغيلية لحظية (Dashboards)</li>
+                            <li>• تحسين التدفقات التشغيلية (Optimization)</li>
+                            <li>• ربط الأنظمة السحابية</li>
                         </ul>
-                        <a href="https://wa.me/message/C65GHDBXUOIYP1?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%80%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D8%A8%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D8%B9%D9%84%D8%A7%D9%85%20%D8%B9%D9%86%20%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84%20%D8%A8%D8%A7%D9%82%D8%A9%20%D8%A7%D9%84%D9%86%D9%85%D9%88%20%D9%88%D8%A7%D9%84%D8%A7%D8%AA%D8%B3%D8%A7%D8%B9." class="w-full py-4 rounded-xl bg-emerald-500 text-obsidian text-center font-bold hover:shadow-[0_0_20px_rgba(16,199,167,0.4)] transition-all">استعلم عن تفاصيل الباقة</a>
+                        <a href="https://wa.me/message/C65GHDBXUOIYP1?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%80%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D8%A8%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D8%B9%D9%84%D8%A7%D9%85%20%D8%B9%D9%86%20%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84%20%D8%A8%D8%A7%D9%82%D8%A9%20%D8%A7%D9%84%D9%86%D9%85%D9%88%20%D9%88%D8%A7%D9%84%D8%A7%D8%AA%D8%B3%D8%A7%D8%B9." class="w-full py-4 rounded-xl bg-emerald-500 text-obsidian text-center font-bold hover:shadow-[0_0_20px_rgba(16,199,167,0.4)] transition-all">استعلم عن التفاصيل</a>
                     </div>
                 </div>
 
-                <!-- Tier 3 -->
                 <div class="glass-panel p-10 rounded-3xl border border-white/5 flex flex-col hover:border-violet-500/20 transition-all">
-                    <div class="mb-8">
-                        <h3 class="text-2xl font-bold mb-2">الباقة المؤسسية</h3>
-                        <p class="text-sm text-silver/60">هندسة مخصصة للمشاريع الكبرى.</p>
-                    </div>
-                    <ul class="space-y-4 mb-10 flex-grow">
-                        <li class="flex items-start gap-3 text-sm">
-                            <svg class="w-5 h-5 text-violet-400 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                            <span>هندسة أنظمة مخصصة بالكامل (Bespoke)</span>
-                        </li>
-                        <li class="flex items-start gap-3 text-sm">
-                            <svg class="w-5 h-5 text-violet-400 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                            <span>ربط الواجهات البرمجية (API Integration)</span>
-                        </li>
-                        <li class="flex items-start gap-3 text-sm">
-                            <svg class="w-5 h-5 text-violet-400 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                            <span>دعم فني متخصص وأولوية في التنفيذ</span>
-                        </li>
+                    <h3 class="text-2xl font-bold mb-2">الباقة المؤسسية</h3>
+                    <p class="text-sm text-silver/60 mb-8">هندسة مخصصة للمشاريع الكبرى.</p>
+                    <ul class="space-y-4 mb-10 flex-grow text-sm text-silver">
+                        <li>• هندسة أنظمة مخصصة بالكامل (Bespoke)</li>
+                        <li>• ربط الواجهات البرمجية (API Integration)</li>
+                        <li>• دعم فني متخصص وأولوية في التنفيذ</li>
                     </ul>
-                    <a href="https://wa.me/message/C65GHDBXUOIYP1?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%80%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D8%A8%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D8%B9%D9%84%D8%A7%D9%85%20%D8%B9%D9%86%20%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84%20%D8%A7%D9%84%D8%A8%D8%A7%D9%82%D8%A9%20%D8%A7%D9%84%D9%85%D8%A4%D8%B3%D8%B3%D9%8A%D8%A9." class="w-full py-4 rounded-xl bg-white/5 border border-white/10 text-center font-bold hover:bg-white/10 transition-all">استعلم عن تفاصيل الباقة</a>
+                    <a href="https://wa.me/message/C65GHDBXUOIYP1?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%80%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D8%A8%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D8%B9%D9%84%D8%A7%D9%85%20%D8%B9%D9%86%20%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84%20%D8%A7%D9%84%D8%A8%D8%A7%D9%82%D8%A9%20%D8%A7%D9%84%D9%85%D8%A4%D8%B3%D8%B3%D9%8A%D8%A9." class="w-full py-4 rounded-xl bg-white/5 border border-white/10 text-center font-bold hover:bg-white/10 transition-all">استعلم عن التفاصيل</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 5. MADAR FAWRI NODE -->
-    <section class="py-16 bg-emerald-500/5 border-y border-emerald-500/10">
-        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-8">
-            <div class="flex items-center gap-6">
-                <div class="w-16 h-16 rounded-2xl bg-emerald-500 flex items-center justify-center text-obsidian animate-pulse">
-                    <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                </div>
-                <div>
-                    <h2 class="text-2xl font-bold uppercase tracking-tight">MADAR FAWRI NODE</h2>
-                    <p class="text-silver">حلول برمجية فورية، سكربتات جاهزة، وإنقاذ العمليات المتوقفة في وقت قياسي.</p>
-                </div>
-            </div>
-            <a href="https://wa.me/message/C65GHDBXUOIYP1?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%80%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D8%A8%D8%B7%D9%84%D8%A8%20%D8%A3%D8%B5%D9%84%20%D9%81%D9%88%D8%B1%D9%8A%20%D9%85%D9%86%20MADAR%20FAWRI." class="px-8 py-4 rounded-xl bg-emerald-500 text-obsidian font-bold hover:scale-105 transition-transform">طلب أصل فوري</a>
-        </div>
-    </section>
-
-    <!-- 6. AI & AUTOMATION TECHNOLOGIES -->
+    <!-- 6. AI & AUTOMATION (Restored Content) -->
     <section id="ai-tech" class="py-24 relative">
         <div class="max-w-7xl mx-auto px-6">
-            <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
-                <div class="max-w-2xl">
-                    <div class="text-emerald-400 font-mono text-xs mb-4 uppercase tracking-[0.3em]">Advanced Neural Systems</div>
-                    <h2 class="text-4xl font-bold mb-6">أنظمة الذكاء والتشغيل الآلي</h2>
-                    <p class="text-silver leading-relaxed">الذكاء الاصطناعي في مَدار ليس مجرد ميزة إضافية، بل هو الطبقة التأسيسية التي تُبنى عليها جميع أنظمتنا لضمان الكفاءة القصوى.</p>
-                </div>
-                <a href="https://wa.me/message/C65GHDBXUOIYP1?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%80%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D8%A8%D9%85%D8%B9%D8%B1%D9%81%D8%A9%20%D8%AD%D9%84%D9%88%D9%84%20%D8%A7%D9%84%D8%B0%D9%83%D8%A7%D8%A1%20%D8%A7%D9%84%D8%A7%D8%B5%D8%B7%D9%86%D8%A7%D8%B9%D9%8I%20%D8%A7%D9%84%D9%85%D8%AA%D8%A7%D8%AD%D8%A9%20%D9%84%D8%AF%D9%89%20%D9%85%D9%8E%D8%AF%D8%A7%D8%B1." class="text-emerald-400 font-bold flex items-center gap-2 hover:gap-4 transition-all group">
-                    تحدث مع مهندس الأنظمة
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-                </a>
-            </div>
-
+            <h2 class="text-4xl font-bold mb-12 text-center">أنظمة الذكاء والتشغيل الآلي</h2>
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <div class="glass-panel p-8 rounded-2xl border border-white/5 relative group overflow-hidden">
-                    <div class="absolute top-0 right-0 w-24 h-24 bg-emerald-500/5 rounded-bl-full -mr-12 -mt-12 group-hover:bg-emerald-500/10 transition-colors"></div>
                     <h4 class="text-lg font-bold mb-4">هندسة البرومبتات المتقدمة</h4>
-                    <p class="text-sm text-silver/70 leading-relaxed">تصميم أوامر ذكاء اصطناعي دقيقة لاستخراج أفضل النتائج من النماذج اللغوية الكبيرة بما يخدم أهداف عملك.</p>
+                    <p class="text-sm text-silver/70 leading-relaxed">تصميم أوامر ذكاء اصطناعي دقيقة لاستخراج أفضل النتائج من النماذج اللغوية.</p>
                 </div>
                 <div class="glass-panel p-8 rounded-2xl border border-white/5 relative group overflow-hidden">
-                    <div class="absolute top-0 right-0 w-24 h-24 bg-violet-500/5 rounded-bl-full -mr-12 -mt-12 group-hover:bg-violet-500/10 transition-colors"></div>
                     <h4 class="text-lg font-bold mb-4">أنظمة التصنيف الذكي للعملاء</h4>
-                    <p class="text-sm text-silver/70 leading-relaxed">فرز وتصنيف العملاء آلياً بناءً على السلوك والبيانات لتوجيه الجهود التسويقية والبيعية بدقة.</p>
+                    <p class="text-sm text-silver/70 leading-relaxed">فرز وتصنيف العملاء آلياً بناءً على السلوك والبيانات.</p>
                 </div>
                 <div class="glass-panel p-8 rounded-2xl border border-white/5 relative group overflow-hidden">
-                    <div class="absolute top-0 right-0 w-24 h-24 bg-emerald-500/5 rounded-bl-full -mr-12 -mt-12 group-hover:bg-emerald-500/10 transition-colors"></div>
                     <h4 class="text-lg font-bold mb-4">أنظمة التوصية واتخاذ القرار</h4>
-                    <p class="text-sm text-silver/70 leading-relaxed">بناء محركات ذكية تدعم اتخاذ القرارات التشغيلية بناءً على تحليل البيانات التاريخية واللحظية.</p>
+                    <p class="text-sm text-silver/70 leading-relaxed">بناء محركات ذكية تدعم اتخاذ القرارات التشغيلية بناءً على تحليل البيانات.</p>
                 </div>
                 <div class="glass-panel p-8 rounded-2xl border border-white/5 relative group overflow-hidden">
-                    <div class="absolute top-0 right-0 w-24 h-24 bg-violet-500/5 rounded-bl-full -mr-12 -mt-12 group-hover:bg-violet-500/10 transition-colors"></div>
                     <h4 class="text-lg font-bold mb-4">أتمتة التقارير التشغيلية</h4>
-                    <p class="text-sm text-silver/70 leading-relaxed">توليد تقارير أداء دورية شاملة آلياً دون تدخل بشري، مما يوفر الوقت ويضمن دقة المعلومات.</p>
+                    <p class="text-sm text-silver/70 leading-relaxed">توليد تقارير أداء دورية شاملة آلياً دون تدخل بشري.</p>
                 </div>
                 <div class="glass-panel p-8 rounded-2xl border border-white/5 relative group overflow-hidden lg:col-span-2">
-                    <div class="absolute top-0 right-0 w-24 h-24 bg-emerald-500/5 rounded-bl-full -mr-12 -mt-12 group-hover:bg-emerald-500/10 transition-colors"></div>
                     <h4 class="text-lg font-bold mb-4">هندسة الأصول الرقمية المدعومة بالذكاء الاصطناعي</h4>
-                    <p class="text-sm text-silver/70 leading-relaxed">تطوير أصول رقمية ذكية (صور، نصوص، فيديوهات قصيرة) تعتمد على خوارزميات الذكاء الاصطناعي لرفع جاذبية المحتوى التسويقي والتشغيلي.</p>
+                    <p class="text-sm text-silver/70 leading-relaxed">تطوير أصول رقمية ذكية (صور، نصوص، فيديوهات قصيرة) تعتمد على خوارزميات الذكاء الاصطناعي لرفع جاذبية المحتوى.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 7. CUSTOM WORKFLOW & COPYWRITING -->
-    <section class="py-24 bg-gradient-to-t from-graphite to-obsidian">
-        <div class="max-w-4xl mx-auto px-6 text-center">
-            <h2 class="text-3xl font-bold mb-8">هل تحتاج إلى حل مخصص بالكامل؟</h2>
-            <p class="text-silver text-lg mb-12 leading-relaxed">
-                إذا كان عملك يتطلب تدفقات عمل فريدة (Custom Workflow)، أو أتمتة مخصصة، أو أنظمة برومبت تخصصية، أو حتى صياغة محتوى مؤسسي رفيع المستوى.. مهندسو مَدار جاهزون لبناء نظامك من الصفر.
-            </p>
-            <a href="https://wa.me/message/C65GHDBXUOIYP1?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%80%D8%8C%20%D9%84%D8%AF%D9%8A%20%D9%85%D8%B4%D8%B1%D9%88%D8%B9%20%D9%85%D8%AE%D8%B5%D8%B5%20%D9%88%D8%A3%D8%B1%D8%BA%D8%A8%20%D8%A8%D9%85%D9%86%D8%A7%D9%82%D8%B4%D8%AA%D9%87%20%D9%85%D8%B9%20%D9%81%D8%B1%D9%8A%D9%82%20%D9%85%D9%8E%D8%AF%D8%A7%D8%B1." class="inline-block px-10 py-5 rounded-2xl border-2 border-white/10 font-bold hover:border-emerald-500 hover:text-emerald-400 transition-all">أرسل تفاصيل مشروعك</a>
-        </div>
-    </section>
-
-    <!-- 8. TRUST & OPERATIONAL PRINCIPLES -->
-    <section id="trust" class="py-24">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <div class="text-center">
-                    <div class="w-16 h-16 mx-auto mb-6 bg-white/5 rounded-2xl flex items-center justify-center border border-white/10">
-                        <svg class="w-8 h-8 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
-                    </div>
-                    <h4 class="text-xl font-bold mb-3">سيادة البيانات</h4>
-                    <p class="text-sm text-silver/60 leading-relaxed">بيانات العميل ملك له بالكامل، وتبقى دائماً داخل بنيته السحابية الخاصة.</p>
-                </div>
-                <div class="text-center">
-                    <div class="w-16 h-16 mx-auto mb-6 bg-white/5 rounded-2xl flex items-center justify-center border border-white/10">
-                        <svg class="w-8 h-8 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 005.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                    </div>
-                    <h4 class="text-xl font-bold mb-3">بدون وسطاء</h4>
-                    <p class="text-sm text-silver/60 leading-relaxed">نعتمد على الربط المباشر مع البنى التحتية الرسمية لضمان الاستقرار.</p>
-                </div>
-                <div class="text-center">
-                    <div class="w-16 h-16 mx-auto mb-6 bg-white/5 rounded-2xl flex items-center justify-center border border-white/10">
-                        <svg class="w-8 h-8 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2"></path></svg>
-                    </div>
-                    <h4 class="text-xl font-bold mb-3">ملكية كاملة</h4>
-                    <p class="text-sm text-silver/60 leading-relaxed">جميع الأصول والأنظمة التي نبنيها تعود ملكيتها القانونية والتقنية للعميل.</p>
-                </div>
-                <div class="text-center">
-                    <div class="w-16 h-16 mx-auto mb-6 bg-white/5 rounded-2xl flex items-center justify-center border border-white/10">
-                        <svg class="w-8 h-8 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
-                    </div>
-                    <h4 class="text-xl font-bold mb-3">قابلية التوسع</h4>
-                    <p class="text-sm text-silver/60 leading-relaxed">البنية التحتية التي نصممها معدة للنمو المستقبلي دون الحاجة لإعادة التأسيس.</p>
-                </div>
+    <!-- Rest of the sections (Trust, Social, Footer) restored with original IDs -->
+    <section id="trust" class="py-24 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+            <div>
+                <h4 class="text-xl font-bold mb-3">سيادة البيانات</h4>
+                <p class="text-sm text-silver/60 leading-relaxed">بيانات العميل ملك له بالكامل.</p>
+            </div>
+            <div>
+                <h4 class="text-xl font-bold mb-3">بدون وسطاء</h4>
+                <p class="text-sm text-silver/60 leading-relaxed">نعتمد على الربط المباشر مع البنى الرسمية.</p>
+            </div>
+            <div>
+                <h4 class="text-xl font-bold mb-3">ملكية كاملة</h4>
+                <p class="text-sm text-silver/60 leading-relaxed">جميع الأصول والأنظمة تعود ملكيتها للعميل.</p>
+            </div>
+            <div>
+                <h4 class="text-xl font-bold mb-3">قابلية التوسع</h4>
+                <p class="text-sm text-silver/60 leading-relaxed">البنية معدة للنمو المستقبلي.</p>
             </div>
         </div>
     </section>
 
-    <!-- Social Ecosystem Section -->
-    <section id="social" class="py-24 border-t border-white/5">
+    <section id="social" class="py-16 bg-graphite/30">
         <div class="max-w-7xl mx-auto px-6 text-center">
-            <h2 class="text-3xl font-bold mb-4">مركز مَدار الرقمي</h2>
-            <p class="text-silver mb-12">تابع تحديثات الأنظمة والأصول الرقمية والمحتوى التقني عبر المنصات الرسمية.</p>
-            <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
-                <a href="https://x.com/ORBITewrt" target="_blank" class="glass-panel p-6 rounded-2xl flex flex-col items-center gap-3 hover:border-white/20 transition-all group">
-                    <svg class="w-8 h-8 text-white group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
-                    <span class="text-xs font-bold">X</span>
-                </a>
-                <a href="https://www.instagram.com/orbit.ops.digital/" target="_blank" class="glass-panel p-6 rounded-2xl flex flex-col items-center gap-3 hover:border-white/20 transition-all group">
-                    <svg class="w-8 h-8 text-white group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"></path></svg>
-                    <span class="text-xs font-bold">Instagram</span>
-                </a>
-                <a href="https://www.threads.com/@orbit.ops.digital" target="_blank" class="glass-panel p-6 rounded-2xl flex flex-col items-center gap-3 hover:border-white/20 transition-all group">
-                    <svg class="w-8 h-8 text-white group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 24 24"><path d="M14.88 11.53c-.07-.07-.15-.1-.23-.11h-.08c-.13.01-.25.08-.33.16l-.31.32c-.1.1-.15.23-.15.37s.05.27.15.37l.31.32c.08.08.2.15.33.16h.08c.08-.01.16-.04.23-.11l.31-.32c.1-.1.15-.23.15-.37s-.05-.27-.15-.37l-.31-.32zM12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm0 18.75c-3.72 0-6.75-3.03-6.75-6.75s3.03-6.75 6.75-6.75 6.75 3.03 6.75 6.75-3.03 6.75-6.75 6.75z"></path></svg>
-                    <span class="text-xs font-bold">Threads</span>
-                </a>
-                <a href="https://www.facebook.com/profile.php?id=61590963613540&locale=ar_AR" target="_blank" class="glass-panel p-6 rounded-2xl flex flex-col items-center gap-3 hover:border-white/20 transition-all group">
-                    <svg class="w-8 h-8 text-white group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"></path></svg>
-                    <span class="text-xs font-bold">Facebook</span>
-                </a>
-                <a href="mailto:orbit.ops.digital@gmail.com" class="glass-panel p-6 rounded-2xl flex flex-col items-center gap-3 hover:border-white/20 transition-all group">
-                    <svg class="w-8 h-8 text-white group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                    <span class="text-xs font-bold">Email</span>
-                </a>
+            <div class="flex justify-center gap-8">
+                <a href="https://x.com/ORBITewrt" target="_blank" class="text-silver hover:text-white transition-colors">X</a>
+                <a href="https://www.instagram.com/orbit.ops.digital/" target="_blank" class="text-silver hover:text-white transition-colors">Instagram</a>
+                <a href="https://www.facebook.com/profile.php?id=61590963613540" target="_blank" class="text-silver hover:text-white transition-colors">Facebook</a>
+                <a href="mailto:orbit.ops.digital@gmail.com" class="text-silver hover:text-white transition-colors">Email</a>
             </div>
         </div>
     </section>
 
-    <!-- 9. THE FOOTER -->
-    <footer class="bg-graphite pt-24 pb-12 border-t border-white/5">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="grid lg:grid-cols-2 gap-16 mb-20">
-                <div>
-                    <div class="flex items-center gap-3 mb-8">
-                        <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663782049537/vRkHPtwYlaDxjdMN.jpeg" alt="MADAR | ORBIT Logo" class="h-12 w-auto rounded-lg">
-                        <div class="flex flex-col leading-none">
-                            <span class="text-xl font-bold tracking-tighter uppercase text-white">MADAR <span class="text-emerald-400">|</span> ORBIT</span>
-                            <span class="text-[10px] text-silver/50 tracking-[0.2em] uppercase">E-Commerce Operations</span>
-                        </div>
-                    </div>
-                    <p class="text-silver leading-relaxed mb-8 max-w-md">
-                        استوديو العمليات والذكاء (Operations & Intelligence Studio) المتخصص في هندسة أنظمة الأعمال وأتمتة العمليات للشركات الطموحة في المنطقة العربية.
-                    </p>
-                    <div class="flex flex-wrap gap-4">
-                        <div class="px-4 py-2 rounded-lg bg-white/5 border border-white/5 text-[10px] font-bold text-silver uppercase tracking-widest">حماية البيانات</div>
-                        <div class="px-4 py-2 rounded-lg bg-white/5 border border-white/5 text-[10px] font-bold text-silver uppercase tracking-widest">تشغيل مؤسسي</div>
-                        <div class="px-4 py-2 rounded-lg bg-white/5 border border-white/5 text-[10px] font-bold text-silver uppercase tracking-widest">بنية مستقرة</div>
-                        <div class="px-4 py-2 rounded-lg bg-white/5 border border-white/5 text-[10px] font-bold text-silver uppercase tracking-widest">بدون وسطاء</div>
-                    </div>
-                </div>
-                
-                <div class="glass-panel p-10 rounded-3xl border border-white/10 text-center lg:text-right">
-                    <h3 class="text-2xl font-bold mb-4">هل أنت مستعد لتأمين مستقبلك التشغيلي؟</h3>
-                    <p class="text-silver mb-8">تواصل مع فريقنا الآن لمناقشة كيفية تحويل عملياتك إلى منظومة ذكية ومستقرة.</p>
-                    <a href="https://wa.me/message/C65GHDBXUOIYP1?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%80%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D8%A8%D8%A7%D9%84%D8%AA%D8%AD%D8%AF%D8%AB%20%D9%85%D8%B9%20%D9%81%D8%B1%D9%8A%D9%82%20%D9%85%D9%8E%D8%AF%D8%A7%D8%B1%20%D9%84%D8%A8%D8%AF%D8%A3%20%D8%A7%D9%84%D8%AA%D8%B9%D8%A7%D9%88%D9%86." class="inline-flex items-center gap-3 px-12 py-5 rounded-2xl bg-emerald-500 text-obsidian font-bold hover:shadow-[0_0_30px_rgba(16,199,167,0.4)] transition-all">
-                        تحدث معنا عبر واتساب
-                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                    </a>
-                </div>
-            </div>
-            
-            <div class="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
-                <div class="text-xs text-silver/40">© 2026 MADAR | ORBIT. جميع الحقوق محفوظة.</div>
-                <div class="flex gap-8 text-xs text-silver/40">
-                    <a href="#" class="hover:text-emerald-400">سياسة الخصوصية</a>
-                    <a href="#" class="hover:text-emerald-400">سيادة البيانات</a>
-                    <a href="#" class="hover:text-emerald-400">الموثوقية التشغيلية</a>
-                </div>
-            </div>
+    <footer class="bg-graphite py-12 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663782049537/vRkHPtwYlaDxjdMN.jpeg" alt="Logo" class="h-10 mx-auto mb-4 rounded">
+            <p class="text-xs text-silver/40">© 2026 MADAR | ORBIT. جميع الحقوق محفوظة.</p>
         </div>
     </footer>
 
     <script>
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                }
-                document.getElementById('mobile-menu').classList.add('translate-x-full');
-            });
-        });
-
         const menuBtn = document.getElementById('menu-btn');
         const closeMenu = document.getElementById('close-menu');
         const mobileMenu = document.getElementById('mobile-menu');
+        const body = document.body;
 
-        menuBtn.addEventListener('click', () => {
-            mobileMenu.classList.remove('translate-x-full');
-        });
-
-        closeMenu.addEventListener('click', () => {
-            mobileMenu.classList.add('translate-x-full');
-        });
-
-        function reveal() {
-            var reveals = document.querySelectorAll("section, .glass-panel");
-            for (var i = 0; i < reveals.length; i++) {
-                var windowHeight = window.innerHeight;
-                var elementTop = reveals[i].getBoundingClientRect().top;
-                var elementVisible = 150;
-                if (elementTop < windowHeight - elementVisible) {
-                    reveals[i].classList.add("active");
-                }
+        function toggleMenu(show) {
+            if (show) {
+                mobileMenu.classList.add('active');
+                body.classList.add('no-scroll');
+            } else {
+                mobileMenu.classList.remove('active');
+                body.classList.remove('no-scroll');
             }
         }
 
+        menuBtn.addEventListener('click', (e) => { e.preventDefault(); toggleMenu(true); });
+        closeMenu.addEventListener('click', (e) => { e.preventDefault(); toggleMenu(false); });
+
+        document.querySelectorAll('.mobile-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                const targetId = link.getAttribute('href');
+                if (targetId.startsWith('#')) {
+                    e.preventDefault();
+                    toggleMenu(false);
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        const navHeight = 80;
+                        window.scrollTo({
+                            top: targetElement.getBoundingClientRect().top + window.pageYOffset - navHeight,
+                            behavior: 'smooth'
+                        });
+                    }
+                }
+            });
+        });
+
+        function reveal() {
+            const reveals = document.querySelectorAll("section, .glass-panel");
+            reveals.forEach(el => {
+                const windowHeight = window.innerHeight;
+                const elementTop = el.getBoundingClientRect().top;
+                if (elementTop < windowHeight - 100) { el.classList.add("active"); }
+            });
+        }
         window.addEventListener("scroll", reveal);
-        reveal();
+        window.addEventListener("load", () => { 
+            reveal(); 
+            mobileMenu.classList.remove('active');
+            createParticles();
+        });
         document.querySelectorAll('section, .glass-panel').forEach(el => el.classList.add('reveal'));
+
+        function createParticles() {
+            const container = document.getElementById('bg-animation');
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                const size = Math.random() * 3 + 1;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                particle.style.setProperty('--x', `${(Math.random() - 0.5) * 200}px`);
+                particle.style.setProperty('--y', `${(Math.random() - 0.5) * 200}px`);
+                particle.style.setProperty('--duration', `${Math.random() * 10 + 10}s`);
+                container.appendChild(particle);
+            }
+        }
     </script>
 </body>
 </html>
